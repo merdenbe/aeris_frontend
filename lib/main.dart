@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login_screen_2.dart';
+import 'login_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-	        child: LoginScreen2(
+	        child: LoginScreen(
             backgroundColor1: Color(0xFF95B1BD),
             backgroundColor2: Color(0xFFF7F8FC),
             highlightColor: Color(0xFF390D58),

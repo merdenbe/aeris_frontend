@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 
-class LoginScreen2 extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
   final Color backgroundColor1;
   final Color backgroundColor2;
   final Color highlightColor;
   final Color foregroundColor;
   final AssetImage logo;
 
-  LoginScreen2({Key k, this.backgroundColor1, this.backgroundColor2, this.highlightColor, this.foregroundColor, this.logo});
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+
+  void attemptLogin() {
+    debugPrint('Email: ${emailController.text}');
+    debugPrint('Password: ${passwordController.text}');
+  }
+
+  LoginScreen({Key k, this.backgroundColor1, this.backgroundColor2, this.highlightColor, this.foregroundColor, this.logo});
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +91,7 @@ class LoginScreen2 extends StatelessWidget {
                 ),
                 new Expanded(
                   child: TextField(
+                    controller: emailController,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -121,6 +130,7 @@ class LoginScreen2 extends StatelessWidget {
                 ),
                 new Expanded(
                   child: TextField(
+                    controller: passwordController,
                     obscureText: true,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
@@ -144,7 +154,7 @@ class LoginScreen2 extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         vertical: 20.0, horizontal: 20.0),
                     color: this.highlightColor,
-                    onPressed: () => {},
+                    onPressed: (){attemptLogin();},
                     child: Text(
                       "Log In",
                       style: TextStyle(color: Colors.white),
