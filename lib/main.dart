@@ -1,45 +1,27 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
+import 'package:aris_frontend/blocprovs/example-bloc-prov.dart';
+import 'package:aris_frontend/blocs/example-bloc.dart';
+import 'package:aris_frontend/theme/style.dart';
+import 'package:aris_frontend/screens/register/screen.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(myApp());
+}
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class myApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ExampleProvider(
+      bloc: ExampleBloc(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Aris',
+        theme: appTheme(),
+        initialRoute: '/',
+        routes: <String, WidgetBuilder>{
+          "/": (BuildContext context) => RegisterScreen(),
+        },
       ),
-      home: MyHomePage(title: 'Aris'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-	        child: LoginScreen(
-            backgroundColor1: Color(0xFF95B1BD),
-            backgroundColor2: Color(0xFFF7F8FC),
-            highlightColor: Color(0xFF390D58),
-            foregroundColor: Colors.black,
-            logo: new AssetImage("assets/images/owl_logo_transparent.png"),
-          ),
-      )
     );
   }
 }
