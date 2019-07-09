@@ -19,6 +19,7 @@ environment:
 dependencies:
   autocomplete_textfield: ^1.7.3
   validators: ^2.0.0
+  http: ^0.12.0+2
 
   flutter:
     sdk: flutter

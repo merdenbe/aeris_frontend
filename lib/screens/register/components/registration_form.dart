@@ -16,6 +16,12 @@ class RegistrationFormState extends State<RegistrationForm> {
 
   final _formKey = GlobalKey<FormState>();
 
+  // Textfield Controllers
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   // Show and hide password
   bool _isHidden = true;
   void _toggleVisibility(){
@@ -27,11 +33,9 @@ class RegistrationFormState extends State<RegistrationForm> {
 
   // Select major
   List<String> added = [];
-
   String currentText = "";
-
   GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
-
+  TextEditingController majorController = TextEditingController(text: "");
   List<String> suggestions = [
     "Computer Science",
     "Computer Engineering",
@@ -79,12 +83,12 @@ class RegistrationFormState extends State<RegistrationForm> {
         padding: EdgeInsets.all(35.0),
         child: Column(
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(top: 40.0)),
+            Padding(padding: EdgeInsets.only(top: 20.0)),
             Text(
               'Sign Up',
               style: new TextStyle(color: Colors.blue, fontSize: 25.0)
             ),
-            Padding(padding: EdgeInsets.only(top: 40.0)),
+            Padding(padding: EdgeInsets.only(top: 30.0)),
             TextFormField(
               decoration: InputDecoration(
                 labelText: 'Enter First Name',
@@ -94,6 +98,7 @@ class RegistrationFormState extends State<RegistrationForm> {
                   borderSide: BorderSide(),
                 ),
               ),
+              controller: firstNameController,
               validator: (firstName) {
                 // Sanitize the input
                 firstName = trim(firstName);
@@ -121,6 +126,7 @@ class RegistrationFormState extends State<RegistrationForm> {
                   borderSide: BorderSide(),
                 ),
               ),
+              controller: lastNameController,
               validator: (lastName) {
                 // Sanitize the input
                 lastName = trim(lastName);
@@ -146,6 +152,7 @@ class RegistrationFormState extends State<RegistrationForm> {
                   borderSide: BorderSide(),
                 ),
               ),
+              controller: emailController,
               validator: (email) {
                 // Sanitization
                 email = trim(email);
@@ -179,10 +186,29 @@ class RegistrationFormState extends State<RegistrationForm> {
                 ),
               ),
               obscureText: _isHidden,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Enter some text';
+              controller: passwordController,
+              validator: (password) {
+                // Sanitize input
+                password = trim(password);
+
+                // Validate Password
+                if (password.length < 8) {
+                  return 'Password must be at least 8 characters.';
                 }
+                if (password.length > 50) {
+                  return 'Password must be less than 50 characters.';
+                }
+
+                RegExp regexNumber = RegExp(r'[0-9]+');
+                if (!regexNumber.hasMatch(password)) {
+                  return 'Password must contain at least one number';
+                }
+
+                RegExp regexCapital = RegExp(r'[A-Z]+');
+                if (!regexCapital.hasMatch(password)) {
+                  return 'Password must contain at least one capital letter.';
+                }
+
                 return null;
               },
             ),
@@ -191,20 +217,19 @@ class RegistrationFormState extends State<RegistrationForm> {
               key: key,
               decoration: InputDecoration(
                 labelText: 'Enter Major',
+                errorText: null,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25.0),
                   borderSide: BorderSide(),
                 ),
               ),
-              controller: TextEditingController(text: ""),
+              controller: majorController,
               suggestions: suggestions,
               textChanged: (text) => currentText = text,
               clearOnSubmit: false,
               textSubmitted: (text) => setState(() {
-                if (text != "") {
-                  added.add(text);
-                }
+                currentText = text;
               })
             ),
             Padding(padding: EdgeInsets.only(top: 15.0)),
@@ -233,7 +258,18 @@ class RegistrationFormState extends State<RegistrationForm> {
                 color: Colors.green,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
+                    // Test if major was picked from list
+                    if (!suggestions.contains(currentText)) {
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Select a major from the list.'), backgroundColor: Colors.red,));
+                      return;
+                    }
+                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Creating account...'), backgroundColor: Colors.green,));
+                    print(firstNameController.text);
+                    print(lastNameController.text);
+                    print(emailController.text);
+                    print(passwordController.text);
+                    print(_currentGradYear);
+                    print(currentText);
                   }
                 },
                 child: Text('Create Account', style: TextStyle(fontSize: 17.0))
