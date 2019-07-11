@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:validators/validators.dart';
 import 'package:validators/sanitizers.dart';
-
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:aris_frontend/services/listmajors.dart';
+import 'package:aris_frontend/services/register.dart';
+import 'dart:convert';
 
 class RegistrationForm extends StatefulWidget {
   @override
@@ -36,15 +37,8 @@ class RegistrationFormState extends State<RegistrationForm> {
   String currentText = "";
   GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
   TextEditingController majorController = TextEditingController(text: "");
-  List<String> suggestions = [
-    "Computer Science",
-    "Computer Engineering",
-    "Mechanical Engineering",
-    "Chemical Engineering",
-    "Aerospace Engineering",
-    "Civil Engineering",
-    "Electrical Engineering"
-  ];
+  Future<Post> post;
+  List<String> majors = [];
 
   // Graduation year dropdown
   List _grad_years = ['2020', '2021', '2022', '2023'];
@@ -53,9 +47,10 @@ class RegistrationFormState extends State<RegistrationForm> {
 
   @override
   void initState() {
+    super.initState();
     _dropDownMenuItems = getDropDownMenuItems();
     _currentGradYear = _dropDownMenuItems[0].value;
-    super.initState();
+    post = fetchPost();
   }
 
   void changedDropDownItem(String selectedGradYear) {
@@ -73,6 +68,10 @@ class RegistrationFormState extends State<RegistrationForm> {
       ));
     }
     return items;
+  }
+
+  demo() async {
+    return 42;
   }
 
   @override
@@ -213,24 +212,36 @@ class RegistrationFormState extends State<RegistrationForm> {
               },
             ),
             Padding(padding: EdgeInsets.only(top: 15.0)),
-            SimpleAutoCompleteTextField(
-              key: key,
-              decoration: InputDecoration(
-                labelText: 'Enter Major',
-                errorText: null,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                  borderSide: BorderSide(),
-                ),
-              ),
-              controller: majorController,
-              suggestions: suggestions,
-              textChanged: (text) => currentText = text,
-              clearOnSubmit: false,
-              textSubmitted: (text) => setState(() {
-                currentText = text;
-              })
+            FutureBuilder<Post>(
+              future: post,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  majors = snapshot.data.majors;
+                  return SimpleAutoCompleteTextField(
+                            key: key,
+                            decoration: InputDecoration(
+                              labelText: 'Enter Major',
+                              errorText: null,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: BorderSide(),
+                              ),
+                            ),
+                            controller: majorController,
+                            suggestions: snapshot.data.majors,
+                            textChanged: (text) => currentText = text,
+                            clearOnSubmit: false,
+                            textSubmitted: (text) => setState(() {
+                              currentText = text;
+                            })
+                          );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                } else {
+                  return Text('oopsie');
+                }
+              }
             ),
             Padding(padding: EdgeInsets.only(top: 15.0)),
             Align(
@@ -259,7 +270,7 @@ class RegistrationFormState extends State<RegistrationForm> {
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     // Test if major was picked from list
-                    if (!suggestions.contains(currentText)) {
+                    if (!majors.contains(currentText)) {
                       Scaffold.of(context).showSnackBar(SnackBar(content: Text('Select a major from the list.'), backgroundColor: Colors.red,));
                       return;
                     }
@@ -270,6 +281,18 @@ class RegistrationFormState extends State<RegistrationForm> {
                     print(passwordController.text);
                     print(_currentGradYear);
                     print(currentText);
+                    var body= json.encode({
+                      'firstName': firstNameController.text,
+                      'lastName': lastNameController.text,
+                      'email': emailController.text,
+                      'password': passwordController.text,
+                      'gradYear': _currentGradYear,
+                      'major': currentText
+                    });
+                    print("Async Test");
+                    register("https://aris-backend-staging.herokuapp.com/register", body).then((dynamic res) {
+                      print(res);
+                    });
                   }
                 },
                 child: Text('Create Account', style: TextStyle(fontSize: 17.0))
