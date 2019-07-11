@@ -4,6 +4,7 @@ import 'package:validators/sanitizers.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:aris_frontend/services/listmajors.dart';
 import 'package:aris_frontend/services/register.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class RegistrationForm extends StatefulWidget {
@@ -70,8 +71,12 @@ class RegistrationFormState extends State<RegistrationForm> {
     return items;
   }
 
-  demo() async {
-    return 42;
+  setProfile(String name, String major, String gradYear, String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('name', name);
+    await prefs.setString('major', major);
+    await prefs.setString('gradYear', gradYear);
+    await prefs.setString('token', token);
   }
 
   @override
@@ -275,12 +280,6 @@ class RegistrationFormState extends State<RegistrationForm> {
                       return;
                     }
                     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Creating account...'), backgroundColor: Colors.green,));
-                    print(firstNameController.text);
-                    print(lastNameController.text);
-                    print(emailController.text);
-                    print(passwordController.text);
-                    print(_currentGradYear);
-                    print(currentText);
                     var body= json.encode({
                       'firstName': firstNameController.text,
                       'lastName': lastNameController.text,
@@ -290,9 +289,10 @@ class RegistrationFormState extends State<RegistrationForm> {
                       'major': currentText
                     });
                     print("Async Test");
-                    register("https://aris-backend-staging.herokuapp.com/register", body).then((dynamic res) {
-                      print(res);
+                    register("https://aris-backend-staging.herokuapp.com/register", body).then((String token) {
+                      setProfile("${firstNameController.text} ${lastNameController.text}", currentText, _currentGradYear, token);
                     });
+                    Navigator.pushNamed(context, '/home');
                   }
                 },
                 child: Text('Create Account', style: TextStyle(fontSize: 17.0))
