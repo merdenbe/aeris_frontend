@@ -5,6 +5,7 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:aris_frontend/services/listmajors.dart';
 import 'package:aris_frontend/services/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:nice_button/nice_button.dart';
 import 'dart:convert';
 
 class RegistrationForm extends StatefulWidget {
@@ -37,6 +38,7 @@ class RegistrationFormState extends State<RegistrationForm> {
   List<String> added = [];
   String currentText = "";
   GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
+  GlobalKey<AutoCompleteTextFieldState<String>> key2 = GlobalKey();
   TextEditingController majorController = TextEditingController(text: "");
   Future<Post> post;
   List<String> majors = [];
@@ -244,7 +246,25 @@ class RegistrationFormState extends State<RegistrationForm> {
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 } else {
-                  return Text('oopsie');
+                  return SimpleAutoCompleteTextField(
+                            key: key2,
+                            decoration: InputDecoration(
+                              labelText: 'Enter Major',
+                              errorText: null,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: BorderSide(),
+                              ),
+                            ),
+                            controller: TextEditingController(text: ""),
+                            suggestions: ["loading..."],
+                            textChanged: (text) => currentText = text,
+                            clearOnSubmit: false,
+                            textSubmitted: (text) => setState(() {
+                              currentText = text;
+                            })
+                          );
                 }
               }
             ),
@@ -267,12 +287,14 @@ class RegistrationFormState extends State<RegistrationForm> {
               ),
             ),
             Padding(padding: EdgeInsets.only(top: 60.0)),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: RaisedButton(
-                textColor: Colors.white,
-                color: Colors.green,
-                onPressed: () {
+            NiceButton(
+              width: 400,
+              elevation: 8,
+              radius: 52,
+              padding: const EdgeInsets.all(10),
+              text: "Create Account",
+              gradientColors: [Color(0xff5b86e5), Color(0xff36d1dc)],
+              onPressed: () {
                   if (_formKey.currentState.validate()) {
                     // Test if major was picked from list
                     if (!majors.contains(currentText)) {
@@ -288,16 +310,13 @@ class RegistrationFormState extends State<RegistrationForm> {
                       'gradYear': _currentGradYear,
                       'major': currentText
                     });
-                    print("Async Test");
                     register("https://aris-backend-staging.herokuapp.com/register", body).then((String token) {
                       setProfile("${firstNameController.text} ${lastNameController.text}", currentText, _currentGradYear, token);
                     });
                     Navigator.pushNamed(context, '/home');
-                  }
-                },
-                child: Text('Create Account', style: TextStyle(fontSize: 17.0))
-              )
-            )
+                }
+              }
+            ),
           ],
         ),
       )
