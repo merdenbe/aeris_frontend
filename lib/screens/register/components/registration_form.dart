@@ -85,239 +85,246 @@ class RegistrationFormState extends State<RegistrationForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Container(
-        padding: EdgeInsets.all(35.0),
-        child: Column(
-          children: <Widget>[
-            Padding(padding: EdgeInsets.only(top: 20.0)),
-            Text(
-              'Sign Up',
-              style: new TextStyle(color: Colors.blue, fontSize: 25.0)
-            ),
-            Padding(padding: EdgeInsets.only(top: 30.0)),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Enter First Name',
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                  borderSide: BorderSide(),
-                ),
+      child: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(35.0),
+          child: Column(
+            children: <Widget>[
+              Padding(padding: EdgeInsets.only(top: 20.0)),
+              Text(
+                'Sign Up',
+                style: new TextStyle(color: Colors.blue, fontSize: 25.0)
               ),
-              controller: firstNameController,
-              validator: (firstName) {
-                // Sanitize the input
-                firstName = trim(firstName);
-
-                // Validate input
-                if (firstName.length > 50) {
-                  return 'First name must be under 50 characters.';
-                }
-                if (firstName.isEmpty) {
-                  return 'Enter some text';
-                }
-
-                firstName = '${firstName[0].toUpperCase()}${firstName.substring(1)}';
-
-                return null;
-              },
-            ),
-            Padding(padding: EdgeInsets.only(top: 15.0)),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Enter Last Name',
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                  borderSide: BorderSide(),
-                ),
-              ),
-              controller: lastNameController,
-              validator: (lastName) {
-                // Sanitize the input
-                lastName = trim(lastName);
-
-                // Validate input
-                if (lastName.length > 50) {
-                  return 'First name must be under 50 characters.';
-                }
-                if (lastName.isEmpty) {
-                  return 'Enter some text';
-                }
-
-                lastName = '${lastName[0].toUpperCase()}${lastName.substring(1)}';
-              },
-            ),
-            Padding(padding: EdgeInsets.only(top: 15.0)),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Enter Email',
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                  borderSide: BorderSide(),
-                ),
-              ),
-              controller: emailController,
-              validator: (email) {
-                // Sanitization
-                email = trim(email);
-
-                // Validation
-                if (!isEmail(email)) {
-                  return "Enter a valid email.";
-                }
-                if (email.substring(email.length - 6) != "nd.edu") {
-                  return "Must use a Notre Dame email.";
-                }
-                if (email.isEmpty) {
-                  return 'Enter some text';
-                }
-
-                return null;
-              },
-            ),
-            Padding(padding: EdgeInsets.only(top: 15.0)),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Enter Password',
-                fillColor: Colors.white,
-                suffixIcon: IconButton(
-                    onPressed: _toggleVisibility,
-                    icon: _isHidden ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                  borderSide: BorderSide(),
-                ),
-              ),
-              obscureText: _isHidden,
-              controller: passwordController,
-              validator: (password) {
-                // Sanitize input
-                password = trim(password);
-
-                // Validate Password
-                if (password.length < 8) {
-                  return 'Password must be at least 8 characters.';
-                }
-                if (password.length > 50) {
-                  return 'Password must be less than 50 characters.';
-                }
-
-                RegExp regexNumber = RegExp(r'[0-9]+');
-                if (!regexNumber.hasMatch(password)) {
-                  return 'Password must contain at least one number';
-                }
-
-                RegExp regexCapital = RegExp(r'[A-Z]+');
-                if (!regexCapital.hasMatch(password)) {
-                  return 'Password must contain at least one capital letter.';
-                }
-
-                return null;
-              },
-            ),
-            Padding(padding: EdgeInsets.only(top: 15.0)),
-            FutureBuilder<Post>(
-              future: post,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  majors = snapshot.data.majors;
-                  return SimpleAutoCompleteTextField(
-                            key: key,
-                            decoration: InputDecoration(
-                              labelText: 'Enter Major',
-                              errorText: null,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(),
-                              ),
-                            ),
-                            controller: majorController,
-                            suggestions: snapshot.data.majors,
-                            textChanged: (text) => currentText = text,
-                            clearOnSubmit: false,
-                            textSubmitted: (text) => setState(() {
-                              currentText = text;
-                            })
-                          );
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                } else {
-                  return SimpleAutoCompleteTextField(
-                            key: key2,
-                            decoration: InputDecoration(
-                              labelText: 'Enter Major',
-                              errorText: null,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(),
-                              ),
-                            ),
-                            controller: TextEditingController(text: ""),
-                            suggestions: ["loading..."],
-                            textChanged: (text) => currentText = text,
-                            clearOnSubmit: false,
-                            textSubmitted: (text) => setState(() {
-                              currentText = text;
-                            })
-                          );
-                }
-              }
-            ),
-            Padding(padding: EdgeInsets.only(top: 15.0)),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Graduation Year: ',
-                    style: TextStyle(color: Colors.blue, fontSize: 20.0)
+              Padding(padding: EdgeInsets.only(top: 30.0)),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Enter First Name',
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide: BorderSide(),
                   ),
-                  DropdownButton(
-                      value: _currentGradYear,
-                      items: _dropDownMenuItems,
-                      onChanged: changedDropDownItem,
-                  ),
-                ]
+                ),
+                keyboardAppearance: Brightness.light,
+                controller: firstNameController,
+                validator: (firstName) {
+                  // Sanitize the input
+                  firstName = trim(firstName);
+
+                  // Validate input
+                  if (firstName.length > 50) {
+                    return 'First name must be under 50 characters.';
+                  }
+                  if (firstName.isEmpty) {
+                    return 'Enter some text';
+                  }
+
+                  firstName = '${firstName[0].toUpperCase()}${firstName.substring(1)}';
+
+                  return null;
+                },
               ),
-            ),
-            Padding(padding: EdgeInsets.only(top: 60.0)),
-            NiceButton(
-              width: 400,
-              elevation: 8,
-              radius: 52,
-              padding: const EdgeInsets.all(10),
-              text: "Create Account",
-              gradientColors: [Color(0xff5b86e5), Color(0xff36d1dc)],
-              onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    // Test if major was picked from list
-                    if (!majors.contains(currentText)) {
-                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Select a major from the list.'), backgroundColor: Colors.red,));
-                      return;
-                    }
-                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Creating account...'), backgroundColor: Colors.green,));
-                    var body= json.encode({
-                      'firstName': firstNameController.text,
-                      'lastName': lastNameController.text,
-                      'email': emailController.text,
-                      'password': passwordController.text,
-                      'gradYear': _currentGradYear,
-                      'major': currentText
-                    });
-                    register("https://aris-backend-staging.herokuapp.com/register", body).then((String token) {
-                      setProfile("${firstNameController.text} ${lastNameController.text}", currentText, _currentGradYear, token);
-                    });
-                    Navigator.pushNamed(context, '/home');
+              Padding(padding: EdgeInsets.only(top: 15.0)),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Enter Last Name',
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide: BorderSide(),
+                  ),
+                ),
+                keyboardAppearance: Brightness.light,
+                controller: lastNameController,
+                validator: (lastName) {
+                  // Sanitize the input
+                  lastName = trim(lastName);
+
+                  // Validate input
+                  if (lastName.length > 50) {
+                    return 'First name must be under 50 characters.';
+                  }
+                  if (lastName.isEmpty) {
+                    return 'Enter some text';
+                  }
+
+                  lastName = '${lastName[0].toUpperCase()}${lastName.substring(1)}';
+                },
+              ),
+              Padding(padding: EdgeInsets.only(top: 15.0)),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Enter Email',
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide: BorderSide(),
+                  ),
+                ),
+                keyboardType: TextInputType.emailAddress,
+                keyboardAppearance: Brightness.light,
+                controller: emailController,
+                validator: (email) {
+                  // Sanitization
+                  email = trim(email);
+
+                  // Validation
+                  if (!isEmail(email)) {
+                    return "Enter a valid email.";
+                  }
+                  if (email.substring(email.length - 6) != "nd.edu") {
+                    return "Must use a Notre Dame email.";
+                  }
+                  if (email.isEmpty) {
+                    return 'Enter some text';
+                  }
+
+                  return null;
+                },
+              ),
+              Padding(padding: EdgeInsets.only(top: 15.0)),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Enter Password',
+                  fillColor: Colors.white,
+                  suffixIcon: IconButton(
+                      onPressed: _toggleVisibility,
+                      icon: _isHidden ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide: BorderSide(),
+                  ),
+                ),
+                keyboardAppearance: Brightness.light,
+                obscureText: _isHidden,
+                controller: passwordController,
+                validator: (password) {
+                  // Sanitize input
+                  password = trim(password);
+
+                  // Validate Password
+                  if (password.length < 8) {
+                    return 'Password must be at least 8 characters.';
+                  }
+                  if (password.length > 50) {
+                    return 'Password must be less than 50 characters.';
+                  }
+
+                  RegExp regexNumber = RegExp(r'[0-9]+');
+                  if (!regexNumber.hasMatch(password)) {
+                    return 'Password must contain at least one number';
+                  }
+
+                  RegExp regexCapital = RegExp(r'[A-Z]+');
+                  if (!regexCapital.hasMatch(password)) {
+                    return 'Password must contain at least one capital letter.';
+                  }
+
+                  return null;
+                },
+              ),
+              Padding(padding: EdgeInsets.only(top: 15.0)),
+              FutureBuilder<Post>(
+                future: post,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    majors = snapshot.data.majors;
+                    return SimpleAutoCompleteTextField(
+                              key: key,
+                              decoration: InputDecoration(
+                                labelText: 'Enter Major',
+                                errorText: null,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: BorderSide(),
+                                ),
+                              ),
+                              controller: majorController,
+                              suggestions: snapshot.data.majors,
+                              textChanged: (text) => currentText = text,
+                              clearOnSubmit: false,
+                              textSubmitted: (text) => setState(() {
+                                currentText = text;
+                              })
+                            );
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  } else {
+                    return SimpleAutoCompleteTextField(
+                              key: key2,
+                              decoration: InputDecoration(
+                                labelText: 'Enter Major',
+                                errorText: null,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderSide: BorderSide(),
+                                ),
+                              ),
+                              controller: TextEditingController(text: ""),
+                              suggestions: ["loading..."],
+                              textChanged: (text) => currentText = text,
+                              clearOnSubmit: false,
+                              textSubmitted: (text) => setState(() {
+                                currentText = text;
+                              })
+                            );
+                  }
                 }
-              }
-            ),
-          ],
+              ),
+              Padding(padding: EdgeInsets.only(top: 15.0)),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Graduation Year: ',
+                      style: TextStyle(color: Colors.blue, fontSize: 20.0)
+                    ),
+                    DropdownButton(
+                        value: _currentGradYear,
+                        items: _dropDownMenuItems,
+                        onChanged: changedDropDownItem,
+                    ),
+                  ]
+                ),
+              ),
+              Padding(padding: EdgeInsets.only(top: 60.0)),
+              NiceButton(
+                width: 400,
+                elevation: 8,
+                radius: 52,
+                padding: const EdgeInsets.all(10),
+                text: "Create Account",
+                gradientColors: [Color(0xff5b86e5), Color(0xff36d1dc)],
+                onPressed: () {
+                    if (_formKey.currentState.validate()) {
+                      // Test if major was picked from list
+                      if (!majors.contains(currentText)) {
+                        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Select a major from the list.'), backgroundColor: Colors.red,));
+                        return;
+                      }
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Creating account...'), backgroundColor: Colors.green,));
+                      var body= json.encode({
+                        'firstName': firstNameController.text,
+                        'lastName': lastNameController.text,
+                        'email': emailController.text,
+                        'password': passwordController.text,
+                        'gradYear': _currentGradYear,
+                        'major': currentText
+                      });
+                      register("https://aris-backend-staging.herokuapp.com/register", body).then((String token) {
+                        setProfile("${firstNameController.text} ${lastNameController.text}", currentText, _currentGradYear, token);
+                      });
+                      Navigator.pushNamed(context, '/home');
+                  }
+                }
+              ),
+            ],
+          ),
         ),
       )
     );
