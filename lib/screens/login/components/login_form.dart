@@ -60,6 +60,8 @@ class LoginFormState extends State<LoginForm> {
                     borderSide: BorderSide(),
                   ),
                 ),
+                keyboardAppearance: Brightness.light,
+                keyboardType: TextInputType.emailAddress,
                 controller: emailController,
                 validator: (email) {
                   // Sanitization
@@ -94,6 +96,7 @@ class LoginFormState extends State<LoginForm> {
                   ),
                 ),
                 obscureText: _isHidden,
+                keyboardAppearance: Brightness.light,
                 controller: passwordController,
                 validator: (password) {
                   // Sanitize input
