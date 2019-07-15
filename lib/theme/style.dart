@@ -6,5 +6,6 @@ ThemeData appTheme() {
     accentColor: Colors.purple,
     scaffoldBackgroundColor: Colors.white,
     canvasColor: Colors.white,
+    fontFamily: 'ProductSans',
   );
 }
