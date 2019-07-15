@@ -25,7 +25,13 @@ class HomeScreen extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(context, '/');
               },
-            )
+            ),
+            ListTile(
+              title: Text('Request a Course'),
+              onTap: () {
+                Navigator.pushNamed(context, '/course_request');
+              },
+            ),
           ],
         )
       ),
