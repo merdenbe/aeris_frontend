@@ -8,6 +8,7 @@ import 'package:aris_frontend/screens/register/screen.dart';
 import 'package:aris_frontend/screens/home/screen.dart';
 import 'package:aris_frontend/screens/login/screen.dart';
 import 'package:aris_frontend/screens/course_request/screen.dart';
+import 'package:aris_frontend/screens/feedback/screen.dart';
 
 
 void main() {
@@ -30,6 +31,7 @@ class myApp extends StatelessWidget {
           "/": (BuildContext context) => HomeScreen(),
           "/login": (BuildContext context) => LoginScreen(),
           "/course_request": (BuildContext context) => CourseRequestScreen(),
+          "/feedback": (BuildContext context) => FeedbackScreen(),
         },
       ),
     );
