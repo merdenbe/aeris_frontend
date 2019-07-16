@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nice_button/nice_button.dart';
 import 'package:validators/sanitizers.dart';
-import 'package:aris_frontend/services/request_course.dart';
+import 'package:aris_frontend/services/submitFeedback.dart';
 import 'dart:convert';
 
 class FeedbackForm extends StatefulWidget {
@@ -14,6 +14,8 @@ class FeedbackForm extends StatefulWidget {
 class FeedbackFormState extends State<FeedbackForm> {
 
   final _formKey = GlobalKey<FormState>();
+
+  TextEditingController feedbackController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class FeedbackFormState extends State<FeedbackForm> {
                     borderSide: BorderSide(),
                   ),
                 ),
+                controller: feedbackController,
                 keyboardAppearance: Brightness.light,
                 validator: (feedback) {
                   // Sanitize the input
@@ -50,6 +53,9 @@ class FeedbackFormState extends State<FeedbackForm> {
                   if (feedback.isEmpty) {
                     return 'Enter some text';
                   }
+                  if (feedback.length > 2048) {
+                    return 'Feedback must be under 2048 characters.';
+                  }
                 },
               ),
               Padding(padding: EdgeInsets.only(top: 20.0)),
@@ -58,11 +64,18 @@ class FeedbackFormState extends State<FeedbackForm> {
                 elevation: 8,
                 radius: 52,
                 padding: const EdgeInsets.all(10),
-                text: "Request",
+                text: "Submitt",
                 gradientColors: [Color(0xff5b86e5), Color(0xff36d1dc)],
                 onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      print("preseed");
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Feedback submitted.'), backgroundColor: Colors.green,));
+                      var body= json.encode({
+                        'msg': feedbackController.text
+                      });
+                      submitFeedback("https://aris-backend-staging.herokuapp.com/feedback", body).then((int statusCode) {
+                        print(statusCode);
+                        Navigator.pushNamed(context, '/');
+                      });
                     }
                   }
               ),
