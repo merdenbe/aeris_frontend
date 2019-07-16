@@ -7,6 +7,9 @@ Future<String> printToken() async {
 }
 
 class HomeScreen extends StatelessWidget {
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,10 +17,12 @@ class HomeScreen extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              child: Text('Drawer Header', style: TextStyle(color: Colors.white)),
-              decoration: BoxDecoration(
-                color: Colors.blue,
+            UserAccountsDrawerHeader(
+              accountName: Text("Michael Erdenberger"),
+              accountEmail: Text("merdenbe@nd.edu"),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: NetworkImage(
+                  "https://randomuser.me/api/portraits/men/46.jpg")
               ),
             ),
             ListTile(
@@ -41,13 +46,25 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.question_answer),
+              leading: Icon(Icons.help),
               title: Text(
                 'FAQ',
                 style: TextStyle(fontSize: 18.0),
               ),
               onTap: () {
                 print("Pressed: FAQ");
+              },
+            ),
+            Divider(),
+            Padding(padding: EdgeInsets.only(top: 375.0)),
+            ListTile(
+              leading: Icon(Icons.keyboard_return),
+              title: Text(
+                'Logout',
+                style: TextStyle(fontSize: 18.0),
+              ),
+              onTap: () {
+                print("Pressed: Logout");
               },
             ),
           ],
