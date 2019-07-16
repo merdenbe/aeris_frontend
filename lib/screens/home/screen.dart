@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 18.0),
               ),
               onTap: () {
-                print("Pressed: Send Feedback");
+                Navigator.pushNamed(context, '/feedback');
               },
             ),
             ListTile(
