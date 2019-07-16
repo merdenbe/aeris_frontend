@@ -319,7 +319,7 @@ class RegistrationFormState extends State<RegistrationForm> {
                       register("https://aris-backend-staging.herokuapp.com/register", body).then((String token) {
                         setProfile("${firstNameController.text} ${lastNameController.text}", currentText, _currentGradYear, token);
                       });
-                      Navigator.pushNamed(context, '/home');
+                      Navigator.pushNamed(context, '/');
                   }
                 }
               ),

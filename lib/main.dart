@@ -27,8 +27,8 @@ class myApp extends StatelessWidget {
         initialRoute: '/',
         routes: <String, WidgetBuilder>{
           "/register": (BuildContext context) => RegisterScreen(),
-          "/home": (BuildContext context) => HomeScreen(),
-          "/": (BuildContext context) => LoginScreen(),
+          "/": (BuildContext context) => HomeScreen(),
+          "/login": (BuildContext context) => LoginScreen(),
           "/course_request": (BuildContext context) => CourseRequestScreen(),
         },
       ),
