@@ -144,7 +144,7 @@ class LoginFormState extends State<LoginForm> {
                         return;
                       } else {
                         storeToken(token);
-                        Navigator.pushNamed(context, '/home');
+                        Navigator.pushNamed(context, '/');
                       }
                     });
                   }

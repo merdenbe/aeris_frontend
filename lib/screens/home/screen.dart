@@ -21,15 +21,33 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             ListTile(
-              title: Text('Login'),
+              leading: Icon(Icons.school),
+              title: Text(
+                'Request a Course',
+                style: TextStyle(fontSize: 18.0),
+              ),
               onTap: () {
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamed(context, '/course_request');
               },
             ),
             ListTile(
-              title: Text('Request a Course'),
+              leading: Icon(Icons.rate_review),
+              title: Text(
+                'Send Feedback',
+                style: TextStyle(fontSize: 18.0),
+              ),
               onTap: () {
-                Navigator.pushNamed(context, '/course_request');
+                print("Pressed: Send Feedback");
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.question_answer),
+              title: Text(
+                'FAQ',
+                style: TextStyle(fontSize: 18.0),
+              ),
+              onTap: () {
+                print("Pressed: FAQ");
               },
             ),
           ],
