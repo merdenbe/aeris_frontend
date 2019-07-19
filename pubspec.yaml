@@ -56,3 +56,5 @@ flutter:
         - asset: lib/theme/google_sans_font/ProductSans-Regular.ttf
         - asset: lib/theme/google_sans_font/ProductSans-Italic.ttf
           style: italic
+        - asset: lib/theme/google_sans_font/ProductSans-Bold.ttf
+          weight: 700

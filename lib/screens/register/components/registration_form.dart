@@ -79,6 +79,7 @@ class RegistrationFormState extends State<RegistrationForm> {
     await prefs.setString('major', major);
     await prefs.setString('gradYear', gradYear);
     await prefs.setString('token', token);
+    await prefs.setBool('isRegistered', true);
   }
 
   @override
@@ -319,7 +320,7 @@ class RegistrationFormState extends State<RegistrationForm> {
                       register("https://aris-backend-staging.herokuapp.com/register", body).then((String token) {
                         setProfile("${firstNameController.text} ${lastNameController.text}", currentText, _currentGradYear, token);
                       });
-                      Navigator.pushNamed(context, '/');
+                      Navigator.pushNamed(context, '/home');
                   }
                 }
               ),

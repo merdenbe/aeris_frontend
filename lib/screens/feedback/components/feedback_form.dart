@@ -90,7 +90,7 @@ class FeedbackFormState extends State<FeedbackForm> {
                       });
                       submitFeedback("https://aris-backend-staging.herokuapp.com/feedback", body, myToken).then((int statusCode) {
                         print(statusCode);
-                        Navigator.pushNamed(context, '/');
+                        Navigator.pushNamed(context, '/home');
                       });
                     }
                   }
