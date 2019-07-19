@@ -4,6 +4,7 @@ import 'package:aris_frontend/services/list_course_requests.dart';
 import 'package:nice_button/nice_button.dart';
 import 'package:validators/sanitizers.dart';
 import 'package:aris_frontend/services/request_course.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class CourseRequestForm extends StatefulWidget {
@@ -24,11 +25,20 @@ class CourseRequestFormState extends State<CourseRequestForm> {
   GlobalKey<AutoCompleteTextFieldState<String>> key2 = GlobalKey();
   Future<Post> post;
   List<String> requestedCourses = [];
+  String myToken = '';
 
   @override
   void initState() {
     super.initState();
+    getToken();
     post = fetchPost();
+  }
+
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      myToken = prefs.getString('token');
+    });
   }
 
   @override
@@ -42,9 +52,9 @@ class CourseRequestFormState extends State<CourseRequestForm> {
             children: <Widget>[
               Padding(padding: EdgeInsets.only(top: 160.0)),
               Text(
-                "Request the courses you want to see this app support.",
+                "This app currently has tutors staffed for only one course, Fundamentals of Computing. Here you can put it in requests for the courses you want this app to support.",
                 style: TextStyle(
-                  fontSize: 25.0,
+                  fontSize: 20.0,
                 )
               ),
               Padding(padding: EdgeInsets.only(top: 20.0)),
@@ -119,7 +129,7 @@ class CourseRequestFormState extends State<CourseRequestForm> {
                         'title': currentText,
                         'account_id': "1",
                       });
-                      requestCourse("https://aris-backend-staging.herokuapp.com/course_requests", body).then((int statusCode) {
+                      requestCourse("https://aris-backend-staging.herokuapp.com/course_requests", body, myToken).then((int statusCode) {
                         print(statusCode);
                       });
                     }
