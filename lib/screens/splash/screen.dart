@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
+
 
 class SplashScreen extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
-    return new SplashScreenState();
+    return SplashScreenState();
   }
 }
 
 class SplashScreenState extends State<SplashScreen>{
+
+  void initState() {
+    super.initState();
+    determineNav();
+  }
+
+  determineNav() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    dynamic isRegistered = prefs.getBool('isRegistered');
+
+    await new Future.delayed(const Duration(seconds: 3));
+    if (isRegistered == null) {
+      Navigator.pushNamed(context, '/register');
+    } else {
+      Navigator.pushNamed(context, '/home');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
      return Scaffold(

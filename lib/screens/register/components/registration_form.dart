@@ -79,6 +79,7 @@ class RegistrationFormState extends State<RegistrationForm> {
     await prefs.setString('major', major);
     await prefs.setString('gradYear', gradYear);
     await prefs.setString('token', token);
+    await prefs.setBool('isRegistered', true);
   }
 
   @override
