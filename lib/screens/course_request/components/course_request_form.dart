@@ -4,6 +4,7 @@ import 'package:aris_frontend/services/list_course_requests.dart';
 import 'package:nice_button/nice_button.dart';
 import 'package:validators/sanitizers.dart';
 import 'package:aris_frontend/services/request_course.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class CourseRequestForm extends StatefulWidget {
@@ -24,11 +25,20 @@ class CourseRequestFormState extends State<CourseRequestForm> {
   GlobalKey<AutoCompleteTextFieldState<String>> key2 = GlobalKey();
   Future<Post> post;
   List<String> requestedCourses = [];
+  String myToken = '';
 
   @override
   void initState() {
     super.initState();
+    getToken();
     post = fetchPost();
+  }
+
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      myToken = prefs.getString('token');
+    });
   }
 
   @override
@@ -119,7 +129,7 @@ class CourseRequestFormState extends State<CourseRequestForm> {
                         'title': currentText,
                         'account_id': "1",
                       });
-                      requestCourse("https://aris-backend-staging.herokuapp.com/course_requests", body).then((int statusCode) {
+                      requestCourse("https://aris-backend-staging.herokuapp.com/course_requests", body, myToken).then((int statusCode) {
                         print(statusCode);
                       });
                     }

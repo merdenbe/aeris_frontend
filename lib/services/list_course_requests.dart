@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 Future<Post> fetchPost() async {
-  final response =
-      await http.get('https://aris-backend-staging.herokuapp.com/course_requests');
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String token = prefs.getString('token');
+
+  final response = await http.get('https://aris-backend-staging.herokuapp.com/course_requests', headers: {'Authorization': 'Bearer ${token}'});
 
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON.
