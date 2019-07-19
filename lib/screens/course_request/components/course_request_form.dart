@@ -52,9 +52,9 @@ class CourseRequestFormState extends State<CourseRequestForm> {
             children: <Widget>[
               Padding(padding: EdgeInsets.only(top: 160.0)),
               Text(
-                "Request the courses you want to see this app support.",
+                "This app currently has tutors staffed for only one course, Fundamentals of Computing. Here you can put it in requests for the courses you want this app to support.",
                 style: TextStyle(
-                  fontSize: 25.0,
+                  fontSize: 20.0,
                 )
               ),
               Padding(padding: EdgeInsets.only(top: 20.0)),
