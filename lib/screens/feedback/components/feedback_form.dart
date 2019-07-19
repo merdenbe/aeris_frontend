@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nice_button/nice_button.dart';
 import 'package:validators/sanitizers.dart';
 import 'package:aris_frontend/services/submitFeedback.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class FeedbackForm extends StatefulWidget {
@@ -15,7 +16,22 @@ class FeedbackFormState extends State<FeedbackForm> {
 
   final _formKey = GlobalKey<FormState>();
 
+  String myToken = '';
+
   TextEditingController feedbackController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    getToken();
+  }
+
+  getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      myToken = prefs.getString('token');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +88,7 @@ class FeedbackFormState extends State<FeedbackForm> {
                       var body= json.encode({
                         'msg': feedbackController.text
                       });
-                      submitFeedback("https://aris-backend-staging.herokuapp.com/feedback", body).then((int statusCode) {
+                      submitFeedback("https://aris-backend-staging.herokuapp.com/feedback", body, myToken).then((int statusCode) {
                         print(statusCode);
                         Navigator.pushNamed(context, '/');
                       });
