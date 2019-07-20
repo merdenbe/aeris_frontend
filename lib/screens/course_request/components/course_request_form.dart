@@ -26,6 +26,7 @@ class CourseRequestFormState extends State<CourseRequestForm> {
   Future<Post> post;
   List<String> requestedCourses = [];
   String myToken = '';
+  int account_id = 0;
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class CourseRequestFormState extends State<CourseRequestForm> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       myToken = prefs.getString('token');
+      account_id = prefs.get('account_id');
     });
   }
 
@@ -127,7 +129,7 @@ class CourseRequestFormState extends State<CourseRequestForm> {
                       Scaffold.of(context).showSnackBar(SnackBar(content: Text('Request sent.'), backgroundColor: Colors.green,));
                       var body= json.encode({
                         'title': currentText,
-                        'account_id': "1",
+                        'account_id': account_id.toString(),
                       });
                       requestCourse("https://aris-backend-staging.herokuapp.com/course_requests", body, myToken).then((int statusCode) {
                         print(statusCode);

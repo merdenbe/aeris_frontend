@@ -23,9 +23,6 @@ Future<RegisterResponse> register(String url, String body) async {
     var body = json.decode(response.body);
     var resp = RegisterResponse(body['token'], body['account_id']);
 
-    print(resp.account_id);
-    print(resp.token);
-
     return resp;
   });
 }

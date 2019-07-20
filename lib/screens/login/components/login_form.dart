@@ -31,9 +31,10 @@ class LoginFormState extends State<LoginForm> {
 
 
 
-  storeToken(String token) async {
+  storeInfo(LoginResponse resp) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', token);
+    await prefs.setString('token', resp.token);
+    await prefs.setInt('account_id', resp.account_id);
   }
 
   @override
@@ -138,12 +139,12 @@ class LoginFormState extends State<LoginForm> {
                       'email': emailController.text,
                       'password': passwordController.text,
                     });
-                    login("https://aris-backend-staging.herokuapp.com/reauthenticate", body).then((String token) {
-                      if (token == "error") {
+                    login("https://aris-backend-staging.herokuapp.com/reauthenticate", body).then((LoginResponse resp) {
+                      if (resp.token == "error") {
                         Scaffold.of(context).showSnackBar(SnackBar(content: Text('Incorrect username/password combination.'), backgroundColor: Colors.red,));
                         return;
                       } else {
-                        storeToken(token);
+                        storeInfo(resp);
                         Navigator.pushNamed(context, '/home');
                       }
                     });
