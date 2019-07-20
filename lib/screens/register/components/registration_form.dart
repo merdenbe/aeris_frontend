@@ -73,13 +73,14 @@ class RegistrationFormState extends State<RegistrationForm> {
     return items;
   }
 
-  setProfile(String name, String major, String gradYear, String token) async {
+  setProfile(String name, String major, String gradYear, String token, int account_id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('name', name);
     await prefs.setString('major', major);
     await prefs.setString('gradYear', gradYear);
     await prefs.setString('token', token);
     await prefs.setBool('isRegistered', true);
+    await prefs.setInt('account_id', account_id);
   }
 
   @override
@@ -317,8 +318,8 @@ class RegistrationFormState extends State<RegistrationForm> {
                         'gradYear': _currentGradYear,
                         'major': currentText
                       });
-                      register("https://aris-backend-staging.herokuapp.com/register", body).then((String token) {
-                        setProfile("${firstNameController.text} ${lastNameController.text}", currentText, _currentGradYear, token);
+                      register("https://aris-backend-staging.herokuapp.com/register", body).then((RegisterResponse resp) {
+                        setProfile("${firstNameController.text} ${lastNameController.text}", currentText, _currentGradYear, resp.token, resp.account_id);
                       });
                       Navigator.pushNamed(context, '/home');
                   }

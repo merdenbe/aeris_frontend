@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 18.0),
               ),
               onTap: () {
-                print("Pressed: Logout");
+                Navigator.pushNamed(context, '/login');
               },
             ),
           ],
