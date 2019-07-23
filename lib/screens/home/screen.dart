@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 18.0),
               ),
               onTap: () {
-                print("Pressed: FAQ");
+                Navigator.pushNamed(context, '/faq');
               },
             ),
             Divider(),
@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 18.0),
               ),
               onTap: () {
-                print("Pressed: Logout");
+                Navigator.pushNamed(context, '/login');
               },
             ),
           ],
