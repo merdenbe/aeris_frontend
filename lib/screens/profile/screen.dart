@@ -84,7 +84,7 @@ class ProfileScreenState extends State<ProfileScreen>{
         icon: Icon(Icons.edit),
         label: Text('Edit Profile'),
         onPressed: () {
-          print("pressed");
+          Navigator.pushNamed(context, "/edit_profile");
         }
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
