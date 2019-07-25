@@ -8,8 +8,6 @@ Future<String> printToken() async {
 
 class HomeScreen extends StatelessWidget {
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +18,15 @@ class HomeScreen extends StatelessWidget {
             UserAccountsDrawerHeader(
               accountName: Text("Michael Erdenberger"),
               accountEmail: Text("merdenbe@nd.edu"),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(
-                  "https://randomuser.me/api/portraits/men/46.jpg")
+              currentAccountPicture: InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, "/profile");
+                },
+                child: CircleAvatar(
+                  backgroundImage: AssetImage(
+                    'assets/images/defaultProfilePic.jpg'
+                  )
+                ),
               ),
             ),
             ListTile(
