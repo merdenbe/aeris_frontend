@@ -30,9 +30,19 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             ListTile(
+              leading: Icon(Icons.card_giftcard),
+              title: Text(
+                'Redeem Coupons',
+                style: TextStyle(fontSize: 18.0),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, '/coupons');
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.school),
               title: Text(
-                'Request a Course',
+                'Request Courses',
                 style: TextStyle(fontSize: 18.0),
               ),
               onTap: () {

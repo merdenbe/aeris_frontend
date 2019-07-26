@@ -13,6 +13,7 @@ import 'package:aris_frontend/screens/splash/screen.dart';
 import 'package:aris_frontend/screens/faq/screen.dart';
 import 'package:aris_frontend/screens/profile/screen.dart';
 import 'package:aris_frontend/screens/edit_profile/screen.dart';
+import 'package:aris_frontend/screens/coupons/screen.dart';
 
 
 void main() {
@@ -40,6 +41,7 @@ class myApp extends StatelessWidget {
           "/faq": (BuildContext context) => FAQScreen(),
           "/profile": (BuildContext context) => ProfileScreen(),
           "/edit_profile": (BuildContext context) => EditProfileScreen(),
+          "/coupons": (BuildContext context) => CouponScreen(),
         },
       ),
     );
