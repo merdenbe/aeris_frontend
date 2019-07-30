@@ -23,6 +23,7 @@ dependencies:
   shared_preferences: ^0.5.3+2
   nice_button: ^0.1.6
   flutter_masked_text: ^0.8.0
+  flutter_picker: ^1.0.13
 
   flutter:
     sdk: flutter
