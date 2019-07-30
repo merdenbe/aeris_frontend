@@ -1,8 +1,8 @@
-import 'dart:convert';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:nice_button/nice_button.dart';
+import 'package:aris_frontend/services/listTopics.dart';
 
 class HomeScreen extends StatefulWidget{
   @override
@@ -13,32 +13,57 @@ class HomeScreen extends StatefulWidget{
 
 class HomeScreenState extends State<HomeScreen>{
 
-  String stateText;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  loadTopics() {
+    listTopics().then((List<String> topics) {
+      setState(() {
+        this.topics = topics;
+      });
+    });
+  }
 
   void initState() {
     super.initState();
+    loadTopics();
   }
 
   String chosenCourse = "Fundamentals of Computing";
+  String chosenTopic = "Select Topic";
 
-  List<String> PickerData = [
-    "Fundamentals of Computing"
-  ];
+  List<String> courses = ["Fundamentals of Computing"];
+  List<String> topics = [];
 
-  showPicker(BuildContext context) {
+  showCoursePicker(BuildContext context) {
     Picker picker = Picker(
       confirmTextStyle: TextStyle(color: Colors.blue, fontSize: 18.0),
       cancelTextStyle: TextStyle(color: Colors.blue, fontSize: 18.0),
-      adapter: PickerDataAdapter<String>(pickerdata: PickerData),
+      adapter: PickerDataAdapter<String>(pickerdata: courses),
+      changeToFirst: true,
+      title: Text("Select Course"),
+      textAlign: TextAlign.left,
+      columnPadding: const EdgeInsets.all(8.0),
+      onConfirm: (Picker picker, List value) {
+        setState(() {
+          chosenCourse = picker.getSelectedValues()[0];
+        });
+      }
+    );
+    picker.show(_scaffoldKey.currentState);
+  }
+
+  showTopicPicker(BuildContext context) {
+    Picker picker = Picker(
+      confirmTextStyle: TextStyle(color: Colors.blue, fontSize: 18.0),
+      cancelTextStyle: TextStyle(color: Colors.blue, fontSize: 18.0),
+      adapter: PickerDataAdapter<String>(pickerdata: topics),
+      title: Text("Select Topic"),
       changeToFirst: true,
       textAlign: TextAlign.left,
       columnPadding: const EdgeInsets.all(8.0),
       onConfirm: (Picker picker, List value) {
-        print(value.toString());
-        print(picker.getSelectedValues());
         setState(() {
-          chosenCourse = picker.getSelectedValues()[0];
+          chosenTopic = picker.getSelectedValues()[0];
         });
       }
     );
@@ -132,45 +157,71 @@ class HomeScreenState extends State<HomeScreen>{
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              Padding(padding: EdgeInsets.only(top: 100.0)),
               Text(
                 'Find a Tutor',
-                style: TextStyle(color: Colors.blue, fontSize: 25.0)
+                style: TextStyle(color: Colors.blue, fontSize: 36.0)
               ),
               Padding(padding: EdgeInsets.only(top: 30.0)),
               Text(
                 'Select Course',
-                style: TextStyle(color: Colors.blue, fontSize: 15.0)
+                style: TextStyle(color: Colors.blue, fontSize: 24.0)
               ),
               Padding(padding: EdgeInsets.only(top: 10.0)),
-              RaisedButton(
-                child: Text(chosenCourse),
-                onPressed: () {
-                  showPicker(context);
-                },
+              SizedBox(
+                width: 400,
+                height: 50,
+                child: RaisedButton(
+                  child: Text(chosenCourse, style: TextStyle(color: Colors.black, fontSize: 18.0)),
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(30.0)
+                  ),
+                  onPressed: () {
+                    showCoursePicker(context);
+                  },
+                ),
               ),
               Padding(padding: EdgeInsets.only(top: 30.0)),
               Text(
                 'Select Topic',
-                style: TextStyle(color: Colors.blue, fontSize: 15.0)
+                style: TextStyle(color: Colors.blue, fontSize: 24.0)
               ),
               Padding(padding: EdgeInsets.only(top: 10.0)),
-              RaisedButton(
-                child: Text(chosenCourse),
-                onPressed: () {
-                  showPicker(context);
-                },
+              SizedBox(
+                width: 400,
+                height: 50,
+                child: RaisedButton(
+                  child: Text(chosenTopic, style: TextStyle(color: Colors.black, fontSize: 18.0)),
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(30.0)
+                  ),
+                  onPressed: () {
+                    showTopicPicker(context);
+                  },
+                ),
               ),
               Padding(padding: EdgeInsets.only(top: 50.0)),
-              NiceButton(
-                width: 400,
-                elevation: 8,
-                radius: 52,
-                padding: const EdgeInsets.all(10),
-                text: "Find Tutor",
-                gradientColors: [Color(0xff5b86e5), Color(0xff36d1dc)],
-                onPressed: () {
-                  print("pressed");
-                }
+              Align(
+                alignment: Alignment.center,
+                child: NiceButton(
+                  width: 300,
+                  elevation: 8,
+                  radius: 52,
+                  padding: const EdgeInsets.all(10),
+                  text: "Find Tutor",
+                  gradientColors: [Color(0xff5b86e5), Color(0xff36d1dc)],
+                  onPressed: () {
+                    if (chosenTopic == "Select Topic") {
+                      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Please select a topic.'), backgroundColor: Colors.red,));
+                    } else {
+                      print(chosenTopic);
+                    }
+                  }
+                ),
               ),
             ],
           ),
