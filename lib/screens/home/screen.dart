@@ -1,4 +1,6 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+
+import 'package:aris_frontend/services/findtutor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:nice_button/nice_button.dart';
@@ -16,9 +18,16 @@ class HomeScreenState extends State<HomeScreen>{
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   loadTopics() {
-    listTopics().then((List<String> topics) {
+    listTopics().then((List<Topic> topics) {
+      List<String> topicStrings = [];
+      Map<String, int> topicMap = {};
+      for (Topic t in topics) {
+        topicStrings.add(t.name);
+        topicMap[t.name] = t.id;
+      }
       setState(() {
-        this.topics = topics;
+        this.topics = topicStrings;
+        this.topicMap = topicMap;
       });
     });
   }
@@ -30,9 +39,13 @@ class HomeScreenState extends State<HomeScreen>{
 
   String chosenCourse = "Fundamentals of Computing";
   String chosenTopic = "Select Topic";
+  Topic chosenTopicObj;
+  String tutorName;
+  String tutorPhone;
 
   List<String> courses = ["Fundamentals of Computing"];
   List<String> topics = [];
+  Map<String, int> topicMap;
 
   showCoursePicker(BuildContext context) {
     Picker picker = Picker(
@@ -68,6 +81,42 @@ class HomeScreenState extends State<HomeScreen>{
       }
     );
     picker.show(_scaffoldKey.currentState);
+  }
+
+  _displayDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Meet Your Tutor'),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text("Session: ${chosenTopic}"),
+              Text("Name: ${tutorName}"),
+              Text("Phone: ${tutorPhone}"),
+            ],
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Cancel Session', style: TextStyle(color: Colors.red)),
+              onPressed: () {
+                print("Pressed Cancel");
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('Start Session', style: TextStyle(color: Colors.blue)),
+              onPressed: () {
+                print("Pressed Log");
+              },
+            )
+          ],
+        );
+      }
+    );
   }
 
   @override
@@ -218,7 +267,21 @@ class HomeScreenState extends State<HomeScreen>{
                     if (chosenTopic == "Select Topic") {
                       _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Please select a topic.'), backgroundColor: Colors.red,));
                     } else {
-                      print(chosenTopic);
+                      int topic_id = topicMap[chosenTopic];
+                      var body = json.encode({
+                        'account_id': 1,
+                        'topic_id': topic_id
+                      });
+                      findTutor(body).then((TutorInfo t) {
+                        setState(() {
+                          tutorName = "${t.firstName} ${t.lastName}";
+                          tutorPhone = t.phoneNumber;
+                        });
+                        if (t.firstName == "Error") {
+                          _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('No tutors available at this time.'), backgroundColor: Colors.red,));
+                        }
+                        _displayDialog(context);
+                      });
                     }
                   }
                 ),
