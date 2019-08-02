@@ -279,6 +279,7 @@ class HomeScreenState extends State<HomeScreen>{
                         });
                         if (t.firstName == "Error") {
                           _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('No tutors available at this time.'), backgroundColor: Colors.red,));
+                          return;
                         }
                         _displayDialog(context);
                       });
