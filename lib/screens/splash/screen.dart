@@ -49,7 +49,7 @@ class SplashScreenState extends State<SplashScreen>{
                 ),
               ),
               Padding(padding: EdgeInsets.only(top: 20.0)),
-              Text("PLATO", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Color(0xff390D58))),
+              Text("AERIS", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Color(0xff390D58))),
             ]
           )
         ),

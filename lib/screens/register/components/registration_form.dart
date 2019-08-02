@@ -94,7 +94,7 @@ class RegistrationFormState extends State<RegistrationForm> {
               Padding(padding: EdgeInsets.only(top: 20.0)),
               Text(
                 'Sign Up',
-                style: new TextStyle(color: Colors.blue, fontSize: 25.0)
+                style: TextStyle(color: Color(0xff390D58), fontSize: 25.0)
               ),
               Padding(padding: EdgeInsets.only(top: 30.0)),
               TextFormField(
@@ -283,7 +283,7 @@ class RegistrationFormState extends State<RegistrationForm> {
                   children: <Widget>[
                     Text(
                       'Graduation Year: ',
-                      style: TextStyle(color: Colors.blue, fontSize: 20.0)
+                      style: TextStyle(color: Color(0xff390D58), fontSize: 20.0)
                     ),
                     DropdownButton(
                         value: _currentGradYear,
@@ -300,7 +300,7 @@ class RegistrationFormState extends State<RegistrationForm> {
                 radius: 52,
                 padding: const EdgeInsets.all(10),
                 text: "Create Account",
-                gradientColors: [Color(0xff5b86e5), Color(0xff36d1dc)],
+                gradientColors: [Color(0xff390D58), Colors.purpleAccent],
                 onPressed: () {
                     if (_formKey.currentState.validate()) {
                       // Test if major was picked from list

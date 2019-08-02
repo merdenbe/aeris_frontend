@@ -129,7 +129,7 @@ class FAQScreenState extends State<FAQScreen>{
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xff390D58),
         icon: Icon(Icons.add),
         label: Text('Ask New Question'),
         onPressed: () => _displayDialog(context),

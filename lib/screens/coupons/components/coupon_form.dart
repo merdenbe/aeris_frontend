@@ -74,7 +74,7 @@ class CouponFormState extends State<CouponForm> {
                 radius: 52,
                 padding: const EdgeInsets.all(10),
                 text: "Redeem",
-                gradientColors: [Color(0xff5b86e5), Color(0xff36d1dc)],
+                gradientColors: [Color(0xff390D58), Colors.deepPurpleAccent],
                 onPressed: () {
                     if (_formKey.currentState.validate()) {
                       Scaffold.of(context).showSnackBar(SnackBar(content: Text('Validating coupon code...'), backgroundColor: Colors.blue,));

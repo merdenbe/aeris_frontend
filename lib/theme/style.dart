@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData appTheme() {
   return ThemeData(
-    primaryColor: Colors.blue, // top bar
+    primaryColor: Color(0xff390D58), // top bar
     accentColor: Colors.purple,
     scaffoldBackgroundColor: Colors.white,
     canvasColor: Colors.white,

@@ -50,7 +50,7 @@ class HomeScreenState extends State<HomeScreen>{
   showCoursePicker(BuildContext context) {
     Picker picker = Picker(
       confirmTextStyle: TextStyle(color: Colors.blue, fontSize: 18.0),
-      cancelTextStyle: TextStyle(color: Colors.blue, fontSize: 18.0),
+      cancelTextStyle: TextStyle(color: Colors.red, fontSize: 18.0),
       adapter: PickerDataAdapter<String>(pickerdata: courses),
       changeToFirst: true,
       title: Text("Select Course"),
@@ -68,7 +68,7 @@ class HomeScreenState extends State<HomeScreen>{
   showTopicPicker(BuildContext context) {
     Picker picker = Picker(
       confirmTextStyle: TextStyle(color: Colors.blue, fontSize: 18.0),
-      cancelTextStyle: TextStyle(color: Colors.blue, fontSize: 18.0),
+      cancelTextStyle: TextStyle(color: Colors.red, fontSize: 18.0),
       adapter: PickerDataAdapter<String>(pickerdata: topics),
       title: Text("Select Topic"),
       changeToFirst: true,
@@ -209,12 +209,12 @@ class HomeScreenState extends State<HomeScreen>{
               Padding(padding: EdgeInsets.only(top: 100.0)),
               Text(
                 'Find a Tutor',
-                style: TextStyle(color: Colors.blue, fontSize: 36.0)
+                style: TextStyle(color: Color(0xff390D58), fontSize: 36.0)
               ),
               Padding(padding: EdgeInsets.only(top: 30.0)),
               Text(
                 'Select Course',
-                style: TextStyle(color: Colors.blue, fontSize: 24.0)
+                style: TextStyle(color: Color(0xff390D58), fontSize: 24.0)
               ),
               Padding(padding: EdgeInsets.only(top: 10.0)),
               SizedBox(
@@ -224,7 +224,7 @@ class HomeScreenState extends State<HomeScreen>{
                   child: Text(chosenCourse, style: TextStyle(color: Colors.black, fontSize: 18.0)),
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.blue),
+                    side: BorderSide(color: Color(0xff390D58)),
                     borderRadius: BorderRadius.circular(30.0)
                   ),
                   onPressed: () {
@@ -235,7 +235,7 @@ class HomeScreenState extends State<HomeScreen>{
               Padding(padding: EdgeInsets.only(top: 30.0)),
               Text(
                 'Select Topic',
-                style: TextStyle(color: Colors.blue, fontSize: 24.0)
+                style: TextStyle(color: Color(0xff390D58), fontSize: 24.0)
               ),
               Padding(padding: EdgeInsets.only(top: 10.0)),
               SizedBox(
@@ -245,7 +245,7 @@ class HomeScreenState extends State<HomeScreen>{
                   child: Text(chosenTopic, style: TextStyle(color: Colors.black, fontSize: 18.0)),
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.blue),
+                    side: BorderSide(color: Color(0xff390D58)),
                     borderRadius: BorderRadius.circular(30.0)
                   ),
                   onPressed: () {
@@ -262,7 +262,7 @@ class HomeScreenState extends State<HomeScreen>{
                   radius: 52,
                   padding: const EdgeInsets.all(10),
                   text: "Find Tutor",
-                  gradientColors: [Color(0xff5b86e5), Color(0xff36d1dc)],
+                  gradientColors: [Color(0xff390D58), Colors.purpleAccent],
                   onPressed: () {
                     if (chosenTopic == "Select Topic") {
                       _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Please select a topic.'), backgroundColor: Colors.red,));

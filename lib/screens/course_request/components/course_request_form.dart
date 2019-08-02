@@ -50,7 +50,6 @@ class CourseRequestFormState extends State<CourseRequestForm> {
           padding: EdgeInsets.all(35.0),
           child: Column(
             children: <Widget>[
-              Padding(padding: EdgeInsets.only(top: 160.0)),
               Text(
                 "This app currently has tutors staffed for only one course, Fundamentals of Computing. Here you can put it in requests for the courses you want this app to support.",
                 style: TextStyle(
@@ -112,7 +111,7 @@ class CourseRequestFormState extends State<CourseRequestForm> {
                 radius: 52,
                 padding: const EdgeInsets.all(10),
                 text: "Request",
-                gradientColors: [Color(0xff5b86e5), Color(0xff36d1dc)],
+                gradientColors: [Color(0xff390D58), Colors.purpleAccent],
                 onPressed: () {
                     if (_formKey.currentState.validate()) {
                       // Validate length

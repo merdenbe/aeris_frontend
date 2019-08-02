@@ -45,12 +45,23 @@ class LoginFormState extends State<LoginForm> {
           padding: EdgeInsets.all(35.0),
           child: Column(
             children: <Widget>[
-              Padding(padding: EdgeInsets.only(top: 125.0)),
+              // Padding(padding: EdgeInsets.only(top: 125.0)),
+              Container(
+                width: 200.0,
+                height: 200.0,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/owl_logo_transparent.png'),
+                    fit: BoxFit.fill
+                  ),
+                ),
+              ),
+              Padding(padding: EdgeInsets.only(top: 20.0)),
               Text(
                 'Login',
-                style: new TextStyle(color: Colors.blue, fontSize: 25.0)
+                style: TextStyle(color: Color(0xff390D58), fontSize: 25.0)
               ),
-              Padding(padding: EdgeInsets.only(top: 100.0)),
+              Padding(padding: EdgeInsets.only(top: 50.0)),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Enter Email',
@@ -130,7 +141,7 @@ class LoginFormState extends State<LoginForm> {
                 radius: 52,
                 padding: const EdgeInsets.all(10),
                 text: "Login",
-                gradientColors: [Color(0xff5b86e5), Color(0xff36d1dc)],
+                gradientColors: [Color(0xff390D58), Colors.purpleAccent],
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     Scaffold.of(context).showSnackBar(SnackBar(content: Text('Logging in...'), backgroundColor: Colors.blue,));

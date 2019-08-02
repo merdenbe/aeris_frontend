@@ -81,7 +81,7 @@ class FeedbackFormState extends State<FeedbackForm> {
                 radius: 52,
                 padding: const EdgeInsets.all(10),
                 text: "Submitt",
-                gradientColors: [Color(0xff5b86e5), Color(0xff36d1dc)],
+                gradientColors: [Color(0xff390D58), Colors.purpleAccent],
                 onPressed: () {
                     if (_formKey.currentState.validate()) {
                       Scaffold.of(context).showSnackBar(SnackBar(content: Text('Feedback submitted.'), backgroundColor: Colors.green,));
